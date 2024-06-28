@@ -12,7 +12,7 @@ export default function Singup() {
       <form onSubmit={submit} action="" className="flex flex-col w-full mt-20 shadow-md p-3">
         <label htmlFor="name" className="mb-2">
           Name
-        </label>
+        </label>  
         <input
           type="text"
           className=" bg-slate-200 text-zinc-950 rounded p-1 outline-none"
