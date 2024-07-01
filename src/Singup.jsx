@@ -1,5 +1,4 @@
 import axios, { Axios } from "axios";
-import { Container } from "postcss";
 import { useState } from "react";
 export default function Singup() {
   const [name, setname] = useState("");
@@ -66,7 +65,7 @@ export default function Singup() {
           value={email}
           onChange={(e) => setemail(e.target.value)}
         />
-        {accept && emailerror === 422 && <p className="text-red-400">Email is defined before</p>}
+        {accept && emailerror === 422 && <p className="text-red-400">Email is already neen taken</p>}
         <label htmlFor="password" className="mb-2">
           Password
         </label>
