@@ -25,18 +25,22 @@ export default function Singup() {
                 email: email,
                 password: password,
                 password_confirmation: repeatpassword,
-              })
+              });
+          if(res.status === 200) {
+            window.localStorage.setItem('email', email);
+            window.location.pathname = "/";
+          }
         }
     } catch (err) {
         setemailerror(err.response.status);
     }
   }
   return (
-    <div className="flex align-items-center justify-between">
+    <div className="flex align-items-center justify-between min-w-96 ">
       <form
         onSubmit={submit}
         action=""
-        className="flex flex-col w-full mt-20 shadow-md p-3"
+        className="flex flex-col w-full mt-10 shadow-md p-3"
       >
         <label htmlFor="name" className="mb-2">
           Name
@@ -101,7 +105,7 @@ export default function Singup() {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-blue-500 shadow-lg shadow-blue-500/50 text-white rounded mt-4"
+            className="hav-bu mt-4"
           >
             Register
           </button>

@@ -11,9 +11,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 a {
@@ -73,4 +70,22 @@ button:focus-visible {
 .contener {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
+}
+.hav-bu {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  background-color: #2969c8;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid white;
+  font-weight: bold;
+}
+.hav-bu:hover {
+  color: #2969c8;
+  border: 2px solid #2969c8;
+  background-color: white;
 }
