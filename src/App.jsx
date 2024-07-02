@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./components/header";
 import Singup from "./Singup";
 import Login from "./login";
+import Base from "./base"
 export default function App() {
   return (
     <div>
@@ -11,9 +12,10 @@ export default function App() {
       </div>
       <div className="flex align-items-center justify-center">
         <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/base" element={<Base/>} />
           <Route path="/Singin" element={<Singup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/Home" element={<Home />} />
         </Routes>
       </div>
     </div>
