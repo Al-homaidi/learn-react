@@ -1,39 +1,40 @@
 import axios, { Axios } from "axios";
 import { useState } from "react";
-export default function login () {
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
-    const [accept, setaccept] = useState(false);
-    const [emailerror, setemailerror] = useState(false);
-  
-    async function submit(e) {
-      let falg = true;
-      console.log(falg);
-      e.preventDefault();
-      setaccept(true);
-      if (password.length < 8) {
-        falg = false;
-      } else falg = true;
-      console.log(falg);
-      try {
-          if (falg) {
-              let res = await axios
-                .post("http://127.0.0.1:8888/api/login", {
-                  email: email,
-                  password: password,
-                })
-            if (res.status === 200) {
-                window.localStorage.setItem('email', email);
-                window.location.pathname = "/base";
+import Header from "./components/header";
+export default function login() {
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [accept, setaccept] = useState(false);
+  const [emailerror, setemailerror] = useState(false);
 
-            }
-          }
-      } catch (err) {
-          setemailerror(err.response.status);
+  async function submit(e) {
+    let falg = true;
+    console.log(falg);
+    e.preventDefault();
+    setaccept(true);
+    if (password.length < 8) {
+      falg = false;
+    } else falg = true;
+    console.log(falg);
+    try {
+      if (falg) {
+        let res = await axios.post("http://127.0.0.1:8888/api/login", {
+          email: email,
+          password: password,
+        });
+        if (res.status === 200) {
+          window.localStorage.setItem("email", email);
+          window.location.pathname = "/base";
+        }
       }
+    } catch (err) {
+      setemailerror(err.response.status);
     }
-    return (
-      <div className="flex align-items-center justify-between min-w-96 ">
+  }
+  return (
+    <div>
+      <Header />
+      <div className="w-[450px]" style={{margin: '1px auto'}}>
         <form
           onSubmit={submit}
           action=""
@@ -51,7 +52,9 @@ export default function login () {
             value={email}
             onChange={(e) => setemail(e.target.value)}
           />
-          {accept && emailerror === 401 && <p className="text-red-400">Email is not found</p>}
+          {accept && emailerror === 401 && (
+            <p className="text-red-400">Email is not found</p>
+          )}
           <label htmlFor="password" className="mb-2">
             Password
           </label>
@@ -68,14 +71,12 @@ export default function login () {
             <p className="text-red-400">password must be more than 8 char</p>
           )}
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="hav-bu mt-4"
-            >
+            <button type="submit" className="hav-bu mt-4">
               login
             </button>
           </div>
         </form>
       </div>
-    );
+    </div>
+  );
 }
