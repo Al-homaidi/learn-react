@@ -6,7 +6,7 @@ export default function Base () {
             <h1 className="fs-1 text-red-600">Hello User</h1>
             <p>do you wannna to dashbord</p>
             <a>
-                <Link className="hav-bu" to={'/users'}>users</Link>
+                <Link className="hav-bu" to={'/base/users'}>users</Link>
             </a>
         </div>
     );

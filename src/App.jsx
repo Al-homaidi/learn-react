@@ -14,7 +14,7 @@ export default function App() {
           <Route path="/base" element={<Base/>} />
           <Route path="/Singin" element={<Singup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/users" element={<Users />} />
+          <Route path="/base/users" element={<Users />} />
           <Route path="/about" element={<About />} />
         </Routes>
     </div>
