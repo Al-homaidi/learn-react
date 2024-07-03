@@ -1,13 +1,16 @@
-
-import { Link } from "react-router-dom";
-export default function Base () {
-    return (
-        <div>
-            <h1 className="fs-1 text-red-600">Hello User</h1>
-            <p>do you wannna to dashbord</p>
-            <a>
-                <Link className="hav-bu" to={'/base/users'}>users</Link>
-            </a>
+import Headerdashbord from "./components/headerdashbord";
+import Sidbar from "./components/sidbar"
+import { Outlet } from "react-router-dom";
+export default function Base() {
+  return (
+    <div>
+      <Headerdashbord />
+      <div className="flex gap-4 pe-4">
+        <Sidbar />
+        <div className="w-full">
+            <Outlet />
         </div>
-    );
+      </div>
+    </div>
+  );
 }

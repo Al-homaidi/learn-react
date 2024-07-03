@@ -18,7 +18,6 @@ export default function Header() {
       <div className="flex justify-between align-items-center pe-8">
         {window.localStorage.getItem('email') ? 
         <>
-        <Link to={'/'} className="hav-bu ms-3" onClick={clearlocal}>logout</Link>       
         <Link to={'/base'} className="hav-bu ms-3">Base</Link>
         </> :       
         <>
