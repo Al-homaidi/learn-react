@@ -7,6 +7,7 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [run, setrun] = useState(0);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8888/api/user/show")
@@ -27,7 +28,7 @@ export default function Users() {
           setLoading(false);
         }
       );
-  }, []);
+  }, [run]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -37,8 +38,15 @@ export default function Users() {
     return <div>Error: {error.message}</div>;
   }
 
-  function deleteuser(id) {
-    axios.delete(`http://127.0.0.1:8888/api/user/delete/${id}`);
+  async function deleteuser(id) {
+    try {
+        const rt = await axios.delete(`http://127.0.0.1:8888/api/user/delete/${id}`);
+        if (rt.status === 200) {
+            setrun((rev) => rev + 1);
+        }
+    } catch {
+        console.log("none");
+    }
   }
 
   const showuser = users.map((user, index) => (
