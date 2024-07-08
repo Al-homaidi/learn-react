@@ -73,7 +73,7 @@ export default function Users() {
     </tr>
   ));
 
-  return (
+  return (   
     <div className="w-full flex-1">
       <h1 className="p-2">Users</h1>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
