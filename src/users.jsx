@@ -16,7 +16,7 @@ export default function Users() {
           throw new Error("Network response was not ok");
         }
         return res.json();
-      })
+      })  
       .then(
         (data) => {
           setUsers(data);
