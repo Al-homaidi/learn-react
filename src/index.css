@@ -83,6 +83,7 @@ button:focus-visible {
   transition: 0.3s;
   border: 2px solid white;
   font-weight: bold;
+  color: white;
 }
 .hav-bu:hover {
   color: #2969c8;
