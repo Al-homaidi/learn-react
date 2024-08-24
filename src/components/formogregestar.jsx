@@ -36,7 +36,8 @@ export default function Formogregestar(props) {
         );
         if (res.status === 200) {
           props.havelocalstorig && window.localStorage.setItem("email", email);
-          window.location.pathname = `/${props.navigate}`;
+          window.location.pathname = `${props.navigate}`;
+          console.log(res);
         }
       }
     } catch (err) {

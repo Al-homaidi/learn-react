@@ -6,7 +6,6 @@ export default function login() {
   const [password, setpassword] = useState("");
   const [accept, setaccept] = useState(false);
   const [emailerror, setemailerror] = useState(false);
-
   async function submit(e) {
     let falg = true;
     console.log(falg);
@@ -24,7 +23,7 @@ export default function login() {
         });
         if (res.status === 200) {
           window.localStorage.setItem("email", email);
-          window.location.pathname = "/base";
+          console.log(res);
         }
       }
     } catch (err) {
@@ -34,7 +33,7 @@ export default function login() {
   return (
     <div>
       <Header />
-      <div className="w-[450px]" style={{margin: '1px auto'}}>
+      <div className="w-[450px]" style={{ margin: "1px auto" }}>
         <form
           onSubmit={submit}
           action=""

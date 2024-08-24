@@ -8,6 +8,7 @@ import Users from "./users";
 import Edituser from "./edituser";
 import Createusers from "./craetuser";
 import Minepage from "./indexbase";
+import Test from "./tets"
 export default function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/base/users" element={<Users />} />
         <Route path="/about" element={<About />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );

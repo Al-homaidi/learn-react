@@ -7,7 +7,7 @@ export default function Singup() {
       <Formogregestar
         button="Register"
         endpoint="register"
-        navigate="/"
+        navigate="/base"
         havelocalstorig={true}
       />
     </div>
