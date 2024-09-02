@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Formogregestar from "./components/formogregestar";
+import { useNavigate } from "react-router-dom";
 export default function edituser() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
+  const nav = useNavigate();
 
   const id = window.location.pathname.split("/").slice(-1)[0];
   useEffect(() => {

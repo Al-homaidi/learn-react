@@ -1,5 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import {User} from "../context/context"
+import { useNavigate } from "react-router-dom";
 
 export default function Formogregestar(props) {
   const [name, setname] = useState("");
@@ -8,7 +10,9 @@ export default function Formogregestar(props) {
   const [repeatpassword, setrepeatpassword] = useState("");
   const [accept, setaccept] = useState(false);
   const [emailerror, setemailerror] = useState(false);
-
+  const NewUser = useContext(User);
+  const nav = useNavigate();
+  console.log(NewUser);
   useEffect(() => {
     setname(props.name);
     setemail(props.email);
@@ -34,11 +38,10 @@ export default function Formogregestar(props) {
             password_confirmation: repeatpassword,
           }
         );
-        if (res.status === 200) {
-          props.havelocalstorig && window.localStorage.setItem("email", email);
-          window.location.pathname = `${props.navigate}`;
-          console.log(res);
-        }
+        const token = res.data.data.token;
+        const userditels = res.data.data.user;
+        NewUser.setauth({token, userditels});
+        nav('/base/users');
       }
     } catch (err) {
       setemailerror(err.response.status);

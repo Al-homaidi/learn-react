@@ -1,30 +1,39 @@
 import axios, { Axios } from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "./components/header";
+import { User } from "./context/context";
+import { useNavigate } from "react-router-dom";
 export default function login() {
+
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [accept, setaccept] = useState(false);
   const [emailerror, setemailerror] = useState(false);
+  const userlogn = useContext(User);
+  const nav = useNavigate();
+
   async function submit(e) {
+
     let falg = true;
     console.log(falg);
     e.preventDefault();
     setaccept(true);
+
     if (password.length < 8) {
       falg = false;
     } else falg = true;
     console.log(falg);
+
     try {
       if (falg) {
         let res = await axios.post("http://127.0.0.1:8888/api/login", {
           email: email,
           password: password,
         });
-        if (res.status === 200) {
-          window.localStorage.setItem("email", email);
-          console.log(res);
-        }
+        const token = res.data.data.token;
+        const userditels = res.data.data.user;
+        userlogn.setauth({ token, userditels });
+        nav('/base')
       }
     } catch (err) {
       setemailerror(err.response.status);
