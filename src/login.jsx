@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import Header from "./components/header";
 import { User } from "./context/context";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 export default function login() {
 
   const [email, setemail] = useState("");
@@ -11,18 +12,18 @@ export default function login() {
   const [emailerror, setemailerror] = useState(false);
   const userlogn = useContext(User);
   const nav = useNavigate();
+  const cookie = new Cookies();
+
 
   async function submit(e) {
 
     let falg = true;
-    console.log(falg);
     e.preventDefault();
     setaccept(true);
 
     if (password.length < 8) {
       falg = false;
     } else falg = true;
-    console.log(falg);
 
     try {
       if (falg) {
@@ -31,6 +32,7 @@ export default function login() {
           password: password,
         });
         const token = res.data.data.token;
+        cookie.set('Bearer', token)
         const userditels = res.data.data.user;
         userlogn.setauth({ token, userditels });
         nav('/base')
@@ -60,9 +62,7 @@ export default function login() {
             value={email}
             onChange={(e) => setemail(e.target.value)}
           />
-          {accept && emailerror === 401 && (
-            <p className="text-red-400">Email is not found</p>
-          )}
+
           <label htmlFor="password" className="mb-2">
             Password
           </label>
@@ -77,6 +77,9 @@ export default function login() {
           />
           {password.length < 8 && accept && (
             <p className="text-red-400">password must be more than 8 char</p>
+          )}
+            {accept && emailerror === 401 && (
+            <p className="text-red-400">Email is not found Or your password is not correct</p>
           )}
           <div className="flex justify-center">
             <button type="submit" className="hav-bu mt-4">

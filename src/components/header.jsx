@@ -4,7 +4,6 @@ import { useContext } from "react";
 
 export default function Header() {
   const user = useContext(User);
-  console.log(user.auth.userditels);
 
   return (
     <div className="flex justify-between items-center pt-3 pb-3 bg-slate-500">

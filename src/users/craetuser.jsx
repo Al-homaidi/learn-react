@@ -1,11 +1,10 @@
-import Header from "./components/header";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { User } from "./context/context";
+import { useContext, useState } from "react";
+import { User } from "../context/context";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-export default function Singup() {
+export default function Crateuser() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -15,6 +14,10 @@ export default function Singup() {
   const NewUser = useContext(User);
   const nav = useNavigate();
   const cookie = new Cookies();
+
+  const user = useContext(User);
+  const token = user?.auth?.token;
+  console.log("Token:", token);
 
   async function submit(e) {
     e.preventDefault();
@@ -27,25 +30,31 @@ export default function Singup() {
 
     try {
       if (falg) {
-        let res = await axios.post("http://127.0.0.1:8888/api/register", {
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: repeatpassword,
-        });
-        const token = res.data.data.token;
-        cookie.set("Bearer", token);
-        const userditels = res.data.data.user;
-        NewUser.setauth({ token, userditels });
-        nav("/base");
+        let res = await axios.post(
+          "http://127.0.0.1:8888/api/user/create",
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: repeatpassword,
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        nav("/base/users");
       }
     } catch (err) {
+      console.error("Error:", err);
       setemailerror(err.response.status);
     }
   }
+
   return (
     <div>
-      <Header />
       <div className="w-[450px]" style={{ margin: "1px auto" }}>
         <form
           onSubmit={submit}
@@ -57,7 +66,7 @@ export default function Singup() {
           </label>
           <input
             type="text"
-            className=" bg-slate-200 text-zinc-950 rounded p-1 outline-none"
+            className="bg-slate-200 text-zinc-950 rounded p-1 outline-none"
             name="name"
             id="name"
             placeholder="name..."
@@ -72,7 +81,7 @@ export default function Singup() {
           </label>
           <input
             type="email"
-            className=" bg-slate-200 text-zinc-950 rounded p-1 outline-none"
+            className="bg-slate-200 text-zinc-950 rounded p-1 outline-none"
             name="email"
             id="email"
             placeholder="email..."
@@ -87,7 +96,7 @@ export default function Singup() {
           </label>
           <input
             type="password"
-            className=" bg-slate-200 text-zinc-950 rounded p-1 outline-none"
+            className="bg-slate-200 text-zinc-950 rounded p-1 outline-none"
             name="password"
             id="password"
             placeholder="password..."
@@ -104,7 +113,7 @@ export default function Singup() {
           </label>
           <input
             type="password"
-            className=" bg-slate-200 text-zinc-950 rounded p-1 outline-none"
+            className="bg-slate-200 text-zinc-950 rounded p-1 outline-none"
             name="repeatpassword"
             id="repeatpassword"
             placeholder="Repeat Password..."
@@ -116,7 +125,7 @@ export default function Singup() {
           )}
           <div className="flex justify-center">
             <button type="submit" className="hav-bu mt-4">
-              Register
+              Create
             </button>
           </div>
         </form>

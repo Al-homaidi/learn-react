@@ -1,33 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { User } from "../context/context";
+import context from "react-bootstrap/esm/AccordionContext";
+
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [run, setrun] = useState(0);
 
+  const user = useContext(User);
+  const token = user.auth.token;
+
+
   useEffect(() => {
-    fetch("http://127.0.0.1:8888/api/user/show")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then(
-        (data) => {
-          setUsers(data);
-          setLoading(false);
-          console.log(data);
+    axios
+      .get("http://127.0.0.1:8888/api/user/show", {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
         },
-        (error) => {
-          setError(error);
-          setLoading(false);
-        }
-      );
+      })
+      .then((data) => {
+        setUsers(data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        console.log(error);
+        setLoading(false);
+      });
   }, [run]);
 
   if (loading) {
@@ -40,14 +45,23 @@ export default function Users() {
 
   async function deleteuser(id) {
     try {
-        const rt = await axios.delete(`http://127.0.0.1:8888/api/user/delete/${id}`);
-        if (rt.status === 200) {
-            setrun((rev) => rev + 1);
+      const rt = await axios.delete(
+        `http://127.0.0.1:8888/api/user/delete/${id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
         }
+      );
+      if (rt.status === 200) {
+        setrun((rev) => rev + 1);
+      }
     } catch {
-        console.log("none");
+      // console.log(error);
     }
   }
+
 
   const showuser = users.map((user, index) => (
     <tr
@@ -73,19 +87,21 @@ export default function Users() {
     </tr>
   ));
 
-  return (   
+  return (
     <div className="w-full flex-1 pb-10 ">
       <div className="flex justify-between align-items-center">
-      <h1 className="p-2">Users</h1>
-        <Link className="hav-bu" to={"/base/users/create"}>Create User</Link>
+        <h1 className="p-2">Users</h1>
+        <Link className="hav-bu" to={"/base/users/create"}>
+          Create User
+        </Link>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">        
+            <th scope="col" className="px-6 py-3">
               Id
             </th>
-            <th scope="col" className="px-6 py-3">  
+            <th scope="col" className="px-6 py-3">
               Name
             </th>
             <th scope="col" className="px-6 py-3">

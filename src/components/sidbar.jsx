@@ -9,6 +9,9 @@ export default function sidbar() {
         <li>
           <Link to={"/base/users"}>users</Link>
         </li>
+        <li>
+          <Link to={"/base/products"}>Products</Link>
+        </li>
       </ul>
     </div>
   );

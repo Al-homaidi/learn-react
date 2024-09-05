@@ -12,7 +12,6 @@ export default function Formogregestar(props) {
   const [emailerror, setemailerror] = useState(false);
   const NewUser = useContext(User);
   const nav = useNavigate();
-  console.log(NewUser);
   useEffect(() => {
     setname(props.name);
     setemail(props.email);

@@ -1,11 +1,9 @@
-import Header from "./components/header";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { User } from "./context/context";
+import { User } from "../context/context";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 
-export default function Singup() {
+export default function edituser() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -14,7 +12,30 @@ export default function Singup() {
   const [emailerror, setemailerror] = useState(false);
   const NewUser = useContext(User);
   const nav = useNavigate();
-  const cookie = new Cookies();
+
+  const user = useContext(User);
+  const token = user?.auth?.token;
+
+  const id = window.location.pathname.split("/").slice(-1)[0];
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8888/api/user/showbyid/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setname(data[0].name);
+        setemail(data[0].email);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [id, token]);
 
   async function submit(e) {
     e.preventDefault();
@@ -27,17 +48,21 @@ export default function Singup() {
 
     try {
       if (falg) {
-        let res = await axios.post("http://127.0.0.1:8888/api/register", {
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: repeatpassword,
-        });
-        const token = res.data.data.token;
-        cookie.set("Bearer", token);
-        const userditels = res.data.data.user;
-        NewUser.setauth({ token, userditels });
-        nav("/base");
+        let res = await axios.post(
+          `http://127.0.0.1:8888/api/user/update/${id}`,
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: repeatpassword,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        nav("/base/users");
       }
     } catch (err) {
       setemailerror(err.response.status);
@@ -45,7 +70,6 @@ export default function Singup() {
   }
   return (
     <div>
-      <Header />
       <div className="w-[450px]" style={{ margin: "1px auto" }}>
         <form
           onSubmit={submit}
@@ -116,7 +140,7 @@ export default function Singup() {
           )}
           <div className="flex justify-center">
             <button type="submit" className="hav-bu mt-4">
-              Register
+              Edit
             </button>
           </div>
         </form>
