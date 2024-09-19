@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { Outlet } from "react-router-dom";
 import { User } from "./context/context";
 import axios from "axios";
@@ -13,37 +13,37 @@ export default function PersistLogin() {
 
   const getcookie = cookie.get("Bearer");
 
-  useEffect(() => {
-    async function refresh() {
-      try {
-        const { data } = await axios.post(
-          "http://127.0.0.1:8888/api/refresh",
-          null,
-          {
-            headers: {
-              Authorization: "Bearer " + getcookie,
-            },
-          }
-        );
-        cookie.set("Bearer", data.token);
-        
-        user.setauth((prev) => ({
-            userditels: data.user,
-            token: data.token,
-        }));
+  const refresh = useCallback(async () => {
+    try {
+      const { data } = await axios.post(
+        "http://127.0.0.1:8888/api/refresh",
+        null,
+        {
+          headers: {
+            Authorization: "Bearer " + getcookie,
+          },
+        }
+      );
+      cookie.set("Bearer", data.token, { path: "/" });
+      
+      user.setauth({
+        userditels: data.user,
+        token: data.token,
+      });
     } catch (err) {
-        console.log(err);
+      console.log(err);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-}
+  }, [getcookie, cookie, user]);
 
+  useEffect(() => {
     if (!token) {
       refresh();
     } else {
       setLoading(false);
     }
-  }, [token, getcookie]);
+  }, [token, refresh]);
 
   return loading ? <LoadingScreen /> : <Outlet />;
 }

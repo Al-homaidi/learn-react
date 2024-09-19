@@ -12,6 +12,7 @@ import Rcouredathe from "./Rcouredathe";
 import PersistLogin from "./persistLogin";
 import Products from "./Products/index.products";
 import CreateProducts from "./Products/createproducts";
+import Editproduce from "./Products/esit.products"
 export default function App() {
   return (
     <div>
@@ -24,10 +25,8 @@ export default function App() {
               <Route path="users/create" element={<Createusers />} />
               <Route path="users/:id" element={<Edituser />} />
               <Route path="products" element={<Products />} />
-              <Route
-                path="products/createproducts"
-                element={<CreateProducts />}
-              />
+              <Route path="products/:id" element={<Editproduce />} />
+              <Route path="products/createproducts" element={<CreateProducts />} />
             </Route>
           </Route>
         </Route>
